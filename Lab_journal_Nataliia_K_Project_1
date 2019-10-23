@@ -1,0 +1,668 @@
+Project_1
+1. Downloads files
+At first step I downloads files with reads and reference sequence of the parental E. coli from ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/005/845/GCA_000005845.2_ASM584v2_cdc_frome_genom
+(Files in: sequence .fasta format and annotation in .gff format.)
+Copy all files in working directory and unzip files.
+
+
+GCA_000005845.2_ASM584v2_cds_from_genomic.fna.gz
+
+2. Inspect raw sequencing data manually
+Next step I verify that the format is correct
+
+head -20 amp_res_1.fastq
+
+@SRR1363257.37 GWZHISEQ01:153:C1W31ACXX:5:1101:14027:2198 length=101
+GGTTGCAGATTCGCAGTGTCGCTGTTCCAGCGCATCACATCTTTGATGTTCACGCCGTGGCGTTTAGCAATGCTTGAAAGCGAATCGCCTTTGCCCACACG
++
+@?:=:;DBFADH;CAECEE@@E:FFHGAE4?C?DE<BFGEC>?>FHE4BFFIIFHIBABEECA83;>>@>@CCCDC9@@CC08<@?@BB@9:CC#######
+@SRR1363257.46 GWZHISEQ01:153:C1W31ACXX:5:1101:19721:2155 length=101
+GTATGAGGTTTTGCTGCATTCTCTGNGCGAATATTAACTCCNTNNNNNTTATAGTTCAAAGCAAGTACCTGTCTCTTATACACATCTCCGAGCCCACGAGC
++
+@@<?=D?D==?<AFGDF+AIHEACH#22<:?E8??:9??GG#0#####000;CF=C)4.==CA@@@)=7?C7?E37;3@>;;(.;>AB#############
+@SRR1363257.77 GWZHISEQ01:153:C1W31ACXX:5:1101:5069:2307 length=101
+GCTTCTCTTAACTGAGGTCACCATCATGCCGTTAAGTCCCTACCTCTCTTTTGCCGGTAACTGTTCCGCCGCGATTGCCTTTTATCTGTCTCTTATACACC
++
+??<DBD;4C2=<BB>:AC;<CF<CE@FE9@E1C@891CD*9:?:3D@DD4?D<DD:0;@A=AEIDDA##################################
+@SRR1363257.78 GWZHISEQ01:153:C1W31ACXX:5:1101:5178:2440 length=101
+GCATAAGGACGATCGCTCCAGAGTAAAATAAATACGCGCATGTGATACTCACAATACCAATGGTGAAGTTACGGGACTTAAACAAACTGAGATCAAGAATC
++
+CCCFFFFFHHHHHJJJJJJJJJJFFHIJJJJJJJJJJJJJJJJJJJJJJJIJHHHHHHFDEDF;AEEEEEEDDDDDBBACDDDCDDDDCCDDDDDDCCDC3
+@SRR1363257.96 GWZHISEQ01:153:C1W31ACXX:5:1101:6707:2460 length=101
+TCATTAAGCCGTGGTGGATGTGCCATAGCGCACCGCAAAGTTAAGAAACCGAATATTGGGTTTAGTCTTGTTTCATAATTGTTGCAATGAAACGCGGTGAA
++
+CCCFFFFFHHHHHJHIIJIIIIJJJJJJGIJJJJJIJJIIGHJJJJJIIJJDHFFFFFEDACDDDCDDDDCCDDECACCDCCCDACDDDDCCDDDDDBD@A
+
+head -20 amp_res_2.fastq
+
+@SRR1363257.37 GWZHISEQ01:153:C1W31ACXX:5:1101:14027:2198 length=101
+GATCTAAGCTGAAGCCAGGCCAAAGTTTGACGATTGGTGCAGGCAGTAGCGCACAGCGACTGGCAAACAACAGCGATAGCATTACGTATCGTGTGCGCAAA
++
+???BDB:DFHBFD@9;;+A;AFGH;ABHFHHGE@9:B:??@D>@;F?D8<<F8AA9EHHD8'..;5?A?A992(',(59CC3@C>22::A238+2>B<>B<
+@SRR1363257.46 GWZHISEQ01:153:C1W31ACXX:5:1101:19721:2155 length=101
+GTACTTGCTTTGNACTATAATATGCACGGAGNTAATATTCGCTCAGAGAATGCAGCAAAACCTCATACCTGTCTCTTATACACATCTGACGCTGCCGACGA
++
+;@@DB?B;CFBB#2<:CB:FH<C@:<A?C::#1:86:BG9:8?8688?888EBF;783)=6-7=CC;ECD);?7;;>>AE;>(5;->AC@;B@;8?#####
+@SRR1363257.77 GWZHISEQ01:153:C1W31ACXX:5:1101:5069:2307 length=101
+ATAATAGGCAATCGCGTCGGAACAGTTACCGGCCAAAGAGAGGCAGGGACTTAACGGCATGATGGTGACCTCAGTTAAGAGAAGCCTGTCTCTTATACACA
++
++=?;:2,+A++AC:C:2@F6:CD:B09B?4)8@''8=))8=;=((5=4@?;@6;@?@BB;(535::>:>3(::(44:@::@3((9<32+::@(4@4+:>C3
+@SRR1363257.78 GWZHISEQ01:153:C1W31ACXX:5:1101:5178:2440 length=101
+ATATTAACAGTAGTATCAGTTATTTCTCTGATCTCTTTAGTCATTTGGGAGTCGACCTCAGAGAACCCGATTCTTGATCTCAGTTTGTTTAAGTCCCGTAA
++
+BCCFFFFFHHHHHHIJJIJJJJJIJJJJIJGIJJJJJJIJHIHJJIJIIGGGHIJIJJJIJIJJJJJJJGHHHHHFFFFFFEEEFEEED?AACCDCCDDDB
+@SRR1363257.96 GWZHISEQ01:153:C1W31ACXX:5:1101:6707:2460 length=101
+GTTTCACCGCGTTTCATTGCAACAATTATGAAACAAGACTAAACCCAATATTCGGTTTCTTAACTTTGCGGTGCGCTATGGCACATCCACCACGGCTTAAT
++
+CCCFFFFFHGHHHJIJJJJJJIJJJJJJIJIJJIJJIJIJJJJJJJJIJJFHIIJFIGJJJGIHHHHHGFFDDDDDDDDDDDDDDDDDDDABDDDDDDDCD
+
+4 lines with information:
+The first line starts with the @ symbol, and contains identifiers and information about this read
+The second line contains the actual sequence
+The third line start with + symbol, which may sometimes have the identifier and info repeated
+The forth line  contains the quality string, where ASCII characters encode the quality score for each base
+
+cat GCA_000005845.2_ASM584v2_cds_from_genomic.fna
+
+>lcl|U00096.3_cds_AAC73112.1_1 [gene=thrL] [locus_tag=b0001] [db_xref=UniProtKB/Swiss-Prot:P0AD86] [protein=thr operon leader peptide] [protein_id=AAC73112.1] [location=190..255] [gbkey=CDS]
+ATGAAACGCATTAGCACCACCATTACCACCACCATCACCATTACCACAGGTAACGGTGCGGGCTGA
+>lcl|U00096.3_cds_AAC73113.1_2 [gene=thrA] [locus_tag=b0002] [db_xref=UniProtKB/Swiss-Prot:P00561] [protein=fused aspartate kinase/homoserine dehydrogenase 1] [protein_id=AAC73113.1] [location=337..2799] [gbkey=CDS]
+ATGCGAGTGTTGAAGTTCGGCGGTACATCAGTGGCAAATGCAGAACGTTTTCTGCGTGTTGCCGATATTCTGGAAAGCAA
+TGCCAGGCAGGGGCAGGTGGCCACCGTCCTCTCTGCCCCCGCCAAAATCACCAACCACCTGGTGGCGATGATTGAAAAAA
+CCATTAGCGGCCAGGATGCTTTACCCAATATCAGCGATGCCGAACGTATTTTTGCCGAACTTTTGACGGGACTCGCCGCC
+GCCCAGCCGGGGTTCCCGCTGGCGCAATTGAAAACTTTCGTCGATCAGGAATTTGCCCAAATAAAACATGTCCTGCATGG
+CATTAGTTTGTTGGGGCAGTGCCCGGATAGCATCAACGCTGCGCTGATTTGCCGTGGCGAGAAAATGTCGATCGCCATTA
+TGGCCGGCGTATTAGAAGCGCGCGGTCACAACGTTACTGTTATCGATCCGGTCGAAAAACTGCTGGCAGTGGGGCATTAC
+CTCGAATCTACCGTCGATATTGCTGAGTCCACCCGCCGTATTGCGGCAAGCCGCATTCCGGCTGATCACATGGTGCTGAT
+GGCAGGTTTCACCGCCGGTAATGAAAAAGGCGAACTGGTGGTGCTTGGACGCAACGGTTCCGACTACTCTGCTGCGGTGC
+TGGCTGCCTGTTTACGCGCCGATTGTTGCGAGATTTGGACGGACGTTGACGGGGTCTATACCTGCGACCCGCGTCAGGTG
+CCCGATGCGAGGTTGTTGAAGTCGATGTCCTACCAGGAAGCGATGGAGCTTTCCTACTTCGGCGCTAAAGTTCTTCACCC
+CCGCACCATTACCCCCATCGCCCAGTTCCAGATCCCTTGCCTGATTAAAAATACCGGAAATCCTCAAGCACCAGGTACGC
+TCATTGGTGCCAGCCGTGATGAAGACGAATTACCGGTCAAGGGCATTTCCAATCTGAATAACATGGCAATGTTCAGCGTT
+TCTGGTCCGGGGATGAAAGGGATGGTCGGCATGGCGGCGCGCGTCTTTGCAGCGATGTCACGCGCCCGTATTTCCGTGGT
+GCTGATTACGCAATCATCTTCCGAATACAGCATCAGTTTCTGCGTTCCACAAAGCGACTGTGTGCGAGCTGAACGGGCAA
+TGCAGGAAGAGTTCTACCTGGAACTGAAAGAAGGCTTACTGGAGCCGCTGGCAGTGACGGAACGGCTGGCCATTATCTCG
+GTGGTAGGTGATGGTATGCGCACCTTGCGTGGGATCTCGGCGAAATTCTTTGCCGCACTGGCCCGCGCCAATATCAACAT
+TGTCGCCATTGCTCAGGGATCTTCTGAACGCTCAATCTCTGTCGTGGTAAATAACGATGATGCGACCACTGGCGTGCGCG
+TTACTCATCAGATGCTGTTCAATACCGATCAGGTTATCGAAGTGTTTGTGATTGGCGTCGGTGGCGTTGGCGGTGCGCTG
+CTGGAGCAACTGAAGCGTCAGCAAAGCTGGCTGAAGAATAAACATATCGACTTACGTGTCTGCGGTGTTGCCAACTCGAA
+GGCTCTGCTCACCAATGTACATGGCCTTAATCTGGAAAACTGGCAGGAAGAACTGGCGCAAGCCAAAGAGCCGTTTAATC
+TCGGGCGCTTAATTCGCCTCGTGAAAGAATATCATCTGCTGAACCCGGTCATTGTTGACTGCACTTCCAGCCAGGCAGTG
+GCGGATCAATATGCCGACTTCCTGCGCGAAGGTTTCCACGTTGTCACGCCGAACAAAAAGGCCAACACCTCGTCGATGGA
+TTACTACCATCAGTTGCGTTATGCGGCGGAAAAATCGCGGCGTAAATTCCTCTATGACACCAACGTTGGGGCTGGATTAC
+CGGTTATTGAGAACCTGCAAAATCTGCTCAATGCAGGTGATGAATTGATGAAGTTCTCCGGCATTCTTTCTGGTTCGCTT
+TCTTATATCTTCGGCAAGTTAGACGAAGGCATGAGTTTCTCCGAGGCGACCACGCTGGCGCGGGAAATGGGTTATACCGA
+ACCGGACCCGCGAGATGATCTTTCTGGTATGGATGTGGCGCGTAAACTATTGATTCTCGCTCGTGAAACGGGACGTGAAC
+TGGAGCTGGCGGATATTGAAATTGAACCTGTGCTGCCCGCAGAGTTTAACGCCGAGGGTGATGTTGCCGCTTTTATGGCG
+AATCTGTCACAACTCGACGATCTCTTTGCCGCGCGCGTGGCGAAGGCCCGTGATGAAGGAAAAGTTTTGCGCTATGTTGG
+CAATATTGATGAAGATGGCGTCTGCCGCGTGAAGATTGCCGAAGTGGATGGTAATGATCCGCTGTTCAAAGTGAAAAATG
+GCGAAAACGCCCTGGCCTTCTATAGCCACTATTATCAGCCGCTGCCGTTGGTACTGCGCGGATATGGTGCGGGCAATGAC
+GTTACAGCTGCCGGTGTCTTTGCTGATCTGCTACGTACCCTCTCATGGAAGTTAGGAGTCTGA
+…………
+
+wc -l amp_res_1.fastq
+
+# 1823504 amp_res_1.fastq
+
+Calculate the number of reads:
+
+To do this, divide by 4 (the number of lines in the fastq file):
+
+1823504 / 4 = 455876 reads
+
+455876 reads contain amp_res_1.fastq file
+
+
+wc -l amp_res_2.fastq
+
+1823504 amp_res_2.fastq
+
+Calculate the number of reads:
+
+To do this, divide by 4 (the number of lines in the fastq file):
+
+1823504 / 4 = 455876 reads
+
+455876 reads contain amp_res_2.fastq file
+
+Results:
+
+455876 reads contains in each files (amp_res_1.fastq and amp_res_2.fastq)
+
+
+
+Downloads fastqc
+
+
+(base) MacBook-Air-Natalia-2:Desktop natalia$ sudo apt-get install fastqc
+Password:
+sudo: apt-get: command not found
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Download from site
+sudo ln -s /path/to/FastQC/fastqc /usr/local/bin/fastqc
+
+
+brew install fastqc
+Downloading https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc
+/usr/local/Cellar/fastqc/0.11.8: 257 files, 10.8MB, built in 48 seconds
+
+
+fastqc -h
+
+
+fastqc -o . amp_res_1.fastq amp_res_2.fastq
+
+
+
+(base) MacBook-Air-Natalia-2:Desktop natalia$ ls
+
+Program generate some files:
+amp_res_1_fastqc.html
+amp_res_1_fastqc.zip
+amp_res_2_fastqc.html
+amp_res_2_fastqc.zip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Check html files:
+
+We have red circles in point:
+Per base sequence quality
+
+We have yellow circles in point:
+Per tile sequence quality
+Per base sequence content
+Per sequence GC content
+
+We have green circles in point:
+Basic Statistics
+Per sequence quality scores
+Per base N content
+Sequence Length Distribution
+Sequence Duplication Levels
+Overrepresented sequences
+Adapter Content
+Basic statistics match what I calculated for the number of reads last time: 455876 = 455876
+
+4. Filtering the reads
+brew install trimmomatic
+
+No results
+
+conda install -c bioconda trimmomatic
+
+trimmomatic PE -phred33  amp_res_1.fastq amp_res_2.fastq -baseout reads_trim  LEADING:20 TRAILING:20 SLIDINGWINDOW:10:20 MINLEN:20
+
+Result:
+TrimmomaticPE: Started with arguments:
+ -phred33 amp_res_1.fastq amp_res_2.fastq -baseout reads_trim LEADING:20 TRAILING:20 SLIDINGWINDOW:10:20 MINLEN:20
+Multiple cores found: Using 4 threads
+Using templated Output files: reads_trim_1P reads_trim_1U reads_trim_2P reads_trim_2U
+Input Read Pairs: 455876 Both Surviving: 446259 (97.89%) Forward Only Surviving: 9216 (2.02%) Reverse Only Surviving: 273 (0.06%) Dropped: 128 (0.03%)
+
+wc -l <…>
+
+36864 reads_trim_1U
+1092 reads_trim_2U
+1785036 reads_trim_1P
+1785036 reads_trim_2P
+
+Check results of working trimmomatic
+
+fastqc -o . <…>
+
+fastqc -o . reads_trim_1U
+
+Results
+
+We have red circles in point:
+
+Per tile sequence quality
+
+We have yellow circles in point:
+
+Per base sequence content
+Sequence Length Distribution
+
+We have green circles in point:
+
+Basic Statistics
+Per base sequence quality
+Per sequence GC content
+Per sequence quality scores
+Per base N content
+Sequence Duplication Levels
+Overrepresented sequences
+Adapter Content
+
+
+Per base quality stay better.
+But now we have some small amount of  short reads.
+After processing reads trimmomatic adapters are not detected fastqc.
+
+Delete adapters for unpair reads
+
+trimmomatic PE -phred33 reads_trim_1U reads_trim_2U ILLUMINACLIP:adapters.fasta:3:30:10 -baseout high_thim_reads_unpair LEADING:30 TRAILING:30 SLIDINGWINDOW:10:30  MINLEN:20
+TrimmomaticPE: Started with arguments:
+ -phred33 reads_trim_1U reads_trim_2U ILLUMINACLIP:adapters.fasta:3:30:10 -baseout high_thim_reads_unpair LEADING:30 TRAILING:30 SLIDINGWINDOW:10:30 MINLEN:20
+Multiple cores found: Using 4 threads
+Using templated Output files: high_thim_reads_unpair_1P high_thim_reads_unpair_1U high_thim_reads_unpair_2P high_thim_reads_unpair_2U
+java.io.FileNotFoundException: /Users/natalia/Desktop/adapters.fasta (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.usadellab.trimmomatic.fasta.FastaParser.parse(FastaParser.java:54)
+	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.loadSequences(IlluminaClippingTrimmer.java:110)
+	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.makeIlluminaClippingTrimmer(IlluminaClippingTrimmer.java:71)
+	at org.usadellab.trimmomatic.trim.TrimmerFactory.makeTrimmer(TrimmerFactory.java:32)
+	at org.usadellab.trimmomatic.Trimmomatic.createTrimmers(Trimmomatic.java:59)
+	at org.usadellab.trimmomatic.TrimmomaticPE.run(TrimmomaticPE.java:552)
+	at org.usadellab.trimmomatic.Trimmomatic.main(Trimmomatic.java:80)
+Input Read Pairs: 273 Both Surviving: 35 (12.82%) Forward Only Surviving: 109 (39.93%) Reverse Only Surviving: 41 (15.02%) Dropped: 88 (32.23%)
+TrimmomaticPE: Completed successfully
+
+Delete adapters for unpair reads
+trimmomatic PE -phred33 reads_trim_1P reads_trim_2P ILLUMINACLIP:adapters.fasta:3:30:10 -baseout high_thim_reads_pair LEADING:30 TRAILING:30 SLIDINGWINDOW:10:30  MINLEN:20
+TrimmomaticPE: Started with arguments:
+ -phred33 reads_trim_1P reads_trim_2P ILLUMINACLIP:adapters.fasta:3:30:10 -baseout high_thim_reads_pair LEADING:30 TRAILING:30 SLIDINGWINDOW:10:30 MINLEN:20
+Multiple cores found: Using 4 threads
+Using templated Output files: high_thim_reads_pair_1P high_thim_reads_pair_1U high_thim_reads_pair_2P high_thim_reads_pair_2U
+java.io.FileNotFoundException: /Users/natalia/Desktop/adapters.fasta (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at org.usadellab.trimmomatic.fasta.FastaParser.parse(FastaParser.java:54)
+	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.loadSequences(IlluminaClippingTrimmer.java:110)
+	at org.usadellab.trimmomatic.trim.IlluminaClippingTrimmer.makeIlluminaClippingTrimmer(IlluminaClippingTrimmer.java:71)
+	at org.usadellab.trimmomatic.trim.TrimmerFactory.makeTrimmer(TrimmerFactory.java:32)
+	at org.usadellab.trimmomatic.Trimmomatic.createTrimmers(Trimmomatic.java:59)
+	at org.usadellab.trimmomatic.TrimmomaticPE.run(TrimmomaticPE.java:552)
+	at org.usadellab.trimmomatic.Trimmomatic.main(Trimmomatic.java:80)
+Input Read Pairs: 446259 Both Surviving: 376330 (84.33%) Forward Only Surviving: 29289 (6.56%) Reverse Only Surviving: 25226 (5.65%) Dropped: 15414 (3.45%)
+TrimmomaticPE: Completed successfully
+
+
+
+
+Aligning sequences to reference
+
+Now we map reads to our reference sequence GCA_000005845.2_ASM584v2_cdc_frome_genome.fna
+
+brew install BWA
+
+bwa index GCA_000005845.2_ASM584v2_cds_from_genomic.fna
+
+[bwa_index] Pack FASTA... 0.08 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 1.99 seconds elapse.
+[bwa_index] Update BWT... 0.07 sec
+[bwa_index] Pack forward-only FASTA... 0.05 sec
+[bwa_index] Construct SA from BWT and Occ... 0.68 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index GCA_000005845.2_ASM584v2_cds_from_genomic.fna
+
+
+[main] Real time: 3.286 sec; CPU: 2.868 sec
+
+Align our reads
+
+bwa mem GCA_000005845.2_ASM584v2_cds_from_genomic.fna high_thim_reads_pair_1P high_thim_reads_pair_2P > bwa_amp_res_pair_output.sam
+
+converting sam to bam:
+
+samtools view -S -b bwa_amp_res_pair_output.sam > bwa_amp_res_output.bam
+
+
+brew install samtools
+
+samtools flagstat bwa_amp_res_output.bam
+
+flagstat bwa_amp_res_output.bam
+
+758616 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+5956 + 0 supplementary
+0 + 0 duplicates
+678120 + 0 mapped (89.39% : N/A)
+752660 + 0 paired in sequencing
+376330 + 0 read1
+376330 + 0 read2
+605414 + 0 properly paired (80.44% : N/A)
+643328 + 0 with itself and mate mapped
+28836 + 0 singletons (3.83% : N/A)
+37148 + 0 with mate mapped to a different chr
+35896 + 0 with mate mapped to a different chr (mapQ>=5)
+
+Sorting
+
+samtools sort bwa_amp_res_output.bam -o alignment_sorted.bam
+
+
+Indexing:
+
+samtools index alignment_sorted.bam
+
+Visualisation:
+
+Going to https://software.broadinstitute.org/software/igv/ and download program IGV
+
+Download in IGV reference genome and BAM file
+
+
+
+
+
+Variant calling
+
+samtools mpileup -f GCA_000005845.2_ASM584v2_cds_from_genomic.fna alignment_sorted.bam > my.mpileup
+
+brew install Java
+
+java -jar VarScan.v2.4.4.source.jar VarScan v2.4.4
+
+java -jar VarScan.v2.4.4.source.jar mpileup2snp my.mpileup --min-var-freq 0.9 --variants --output-vcf > VarScan_strict_results.vsf
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:	8
+Min reads2:	2
+Min var freq:	0.9
+Min avg qual:	15
+P-value thresh:	0.01
+Reading input from my.mpileup
+4086284 bases in pileup file
+7 variant positions (5 SNP, 2 indel)
+0 were failed by the strand-filter
+5 variant positions reported (5 SNP, 0 indel)
+
+
+java -jar VarScan.v2.4.4.source.jar mpileup2snp my.mpileup --min-var-freq 0.8 --variants --output-vcf > VarScan_strict_results_0.8.vsf
+
+
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:	8
+Min reads2:	2
+Min var freq:	0.8
+Min avg qual:	15
+P-value thresh:	0.01
+Reading input from my.mpileup
+4086284 bases in pileup file
+8 variant positions (5 SNP, 3 indel)
+0 were failed by the strand-filter
+5 variant positions reported (5 SNP, 0 indel)
+
+
+java -jar VarScan.v2.4.4.source.jar mpileup2snp my.mpileup —mi
+
+n-var-freq 0.6 --variants --output-vcf > VarScan_strict_results.vsf
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:	8
+Min reads2:	2
+Min var freq:	0.6
+Min avg qual:	15
+P-value thresh:	0.01
+Reading input from my.mpileup
+4086284 bases in pileup file
+13 variant positions (10 SNP, 3 indel)
+0 were failed by the strand-filter
+10 variant positions reported (10 SNP, 0 indel)
+
+
+java -jar VarScan.v2.4.4.source.jar mpileup2snp my.mpileup --min-var-freq 0.2 --variants --output-vcf > VarScan_strict_results.vsf
+
+
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:	8
+Min reads2:	2
+Min var freq:	0.2
+Min avg qual:	15
+P-value thresh:	0.01
+Reading input from my.mpileup
+4086284 bases in pileup file
+39 variant positions (36 SNP, 3 indel)
+0 were failed by the strand-filter
+36 variant positions reported (36 SNP, 0 indel)
+
+
+Different results!!!
+
+
+Founded mutations:
+
+
+
+Aligning sequences to reference
+
+Now we map reads to our reference sequence full_GCA_000005845.2_ASM584v2_genomic.fna
+
+
+bwa index full_GCA_000005845.2_ASM584v2_genomic.fna
+
+[bwa_index] Pack FASTA... 0.07 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 2.74 seconds elapse.
+[bwa_index] Update BWT... 0.07 sec
+[bwa_index] Pack forward-only FASTA... 0.04 sec
+[bwa_index] Construct SA from BWT and Occ... 0.99 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index full_GCA_000005845.2_ASM584v2_genomic.fna
+[main] Real time: 4.662 sec; CPU: 3.911 sec
+
+Align our reads
+
+bwa mem full_GCA_000005845.2_ASM584v2_genomic.fna high_thim_reads_pair_1P high_thim_reads_pair_2P > full_genome_bwa_amp_res_pair_output.sam
+
+converting sam to bam:
+
+samtools view -S -b full_genome_bwa_amp_res_pair_output.sam
+ > full_genome_bwa_amp_res_pair_output.bam
+
+
+brew install samtools
+
+samtools flagstat full_genome_bwa_amp_res_pair_output.bam
+
+
+flagstat bwa_amp_res_output.bam
+
+752798 + 0 in total (QC-passed reads + QC-failed reads)
+0 + 0 secondary
+138 + 0 supplementary
+0 + 0 duplicates
+752180 + 0 mapped (99.92% : N/A)
+752660 + 0 paired in sequencing
+376330 + 0 read1
+376330 + 0 read2
+750094 + 0 properly paired (99.66% : N/A)
+751534 + 0 with itself and mate mapped
+508 + 0 singletons (0.07% : N/A)
+0 + 0 with mate mapped to a different chr
+0 + 0 with mate mapped to a different chr (mapQ>=5)
+
+Sorting
+
+samtools sort full_genome_bwa_amp_res_pair_output.bam -o full_genome_aligment_sorted.bam
+
+
+Indexing:
+
+samtools index full_genome_aligment_sorted.bam
+
+
+Variant calling
+
+samtools mpileup -f full_GCA_000005845.2_ASM584v2_genomic.fna full_genome_aligment_sorted.bam > full_my.mpileup
+
+brew install Java
+
+java -jar VarScan.v2.4.4.source.jar VarScan v2.4.4
+
+java -jar VarScan.v2.4.4.source.jar mpileup2snp full_my.mpileup --min-var-freq 0.9 --variants --output-vcf > -full_VarScan_0.9_results.vcf
+
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:	8
+Min reads2:	2
+Min var freq:	0.9
+Min avg qual:	15
+P-value thresh:	0.01
+Reading input from full_my.mpileup
+
+4641047 bases in pileup file
+7 variant positions (6 SNP, 1 indel)
+1 were failed by the strand-filter
+5 variant positions reported (5 SNP, 0 indel)
+
+java -jar VarScan.v2.4.4.source.jar mpileup2snp full_my.mpileup --min-var-freq 0.2 --variants --output-vcf > -full_VarScan_0.2_results.vcf
+
+
+Only SNPs will be reported
+Warning: No p-value threshold provided, so p-values will not be calculated
+Min coverage:	8
+Min reads2:	2
+Min var freq:	0.2
+Min avg qual:	15
+P-value thresh:	0.01
+Reading input from full_my.mpileup
+
+4641047 bases in pileup file
+8 variant positions (6 SNP, 2 indel)
+1 were failed by the strand-filter
+5 variant positions reported (5 SNP, 0 indel)
+
+SNP characteristics
+
+ #CHROM	POS	ID	REF	ALT	QUAL      mut.e.coli
+U00096.3	93043	.	C	G		G/G
+U00096.3	482698	.	T	A		A/A
+U00096.3	852762	.	A	G		G/G
+U00096.3	3535147	.	A	C		C/C
+U00096.3	4390754	.	G	T		T/T
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
